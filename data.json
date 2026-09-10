@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-10T14:32:00.652Z",
+  "diperbarui": "2026-09-10T14:32:15.706Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -140,7 +140,7 @@
         "liberica"
       ],
       "process": "triple yeast",
-      "altitude": "",
+      "altitude": "1400",
       "roaster": "tadasih",
       "roastDate": "2026-07-16",
       "notes": [
@@ -153,7 +153,7 @@
       "catatan": "",
       "seduhan": [],
       "createdAt": 1789050699725,
-      "updatedAt": 1789050720256
+      "updatedAt": 1789050735214
     }
   ]
 }
