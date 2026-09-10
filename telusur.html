@@ -4,13 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Telusur · Jejak Kopi</title>
-<meta name="theme-color" content="#2C5B40">
+<meta name="theme-color" content="#A2664B">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/app.css">
-<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
 <div class="app">
@@ -19,13 +18,14 @@
 </div>
 <nav class="tabs" id="appTabs"></nav>
 
+<script src="assets/seed.js"></script>
 <script src="assets/app.js"></script>
 <script>
 shell({});
 
 const FACET = [
   ["variety", "Varietas"], ["process", "Proses"],
-  ["roaster", "Roaster"], ["origin", "Daerah"], ["notes", "Rasa"]
+  ["notes", "Rasa"], ["roaster", "Roaster"], ["origin", "Daerah"]
 ];
 let tab = qs("f") || "variety";
 let pilih = qs("v") || "";
@@ -44,7 +44,6 @@ function render(){
   const chips = FACET.map(([k, l]) =>
     `<button class="chip" data-tab="${k}" aria-pressed="${tab === k}">${l}</button>`).join("");
 
-  // daftar nilai + jumlah
   const m = new Map();
   semua.forEach(k => nilai(k, tab).forEach(x => m.set(x, (m.get(x) || 0) + 1)));
   let rows = Array.from(m.entries()).map(([x, n]) => ({ x, n }))
@@ -52,27 +51,27 @@ function render(){
   if(cari) rows = rows.filter(r => r.x.toLowerCase().includes(cari.toLowerCase()));
   const max = Math.max(1, ...rows.map(r => r.n));
 
-  // hasil saringan
   const hasil = pilih ? semua.filter(k => nilai(k, tab).includes(pilih)) : [];
+  const label = FACET.find(f => f[0] === tab)[1].toLowerCase();
 
   v.innerHTML = `
     <div class="chips">${chips}</div>
+
     ${pilih ? `
       <div class="sec-head">
         <h2 class="sec-title">${esc(pilih)} — ${hasil.length} kopi</h2>
         <button class="sec-act" id="reset">✕ hapus saringan</button>
       </div>
-      ${hasil.length ? hasil.map(kartuKopi).join("")
+      ${hasil.length ? hasil.map(barisKopi).join("")
         : `<p class="muted">Tidak ada yang cocok.</p>`}
       <div class="hr"></div>` : ""}
 
     <div class="f"><input type="text" id="cari" placeholder="Cari di daftar…"
       value="${esc(cari)}" autocomplete="off"></div>
-    <div class="sec-head"><h2 class="sec-title">${rows.length} ${
-      FACET.find(f => f[0] === tab)[1].toLowerCase()} tercatat</h2></div>
+    <div class="sec-head"><h2 class="sec-title">${rows.length} ${label} tercatat</h2></div>
     ${rows.length ? rows.map(r => `
       <button class="facet" data-pilih="${esc(r.x)}">
-        <span class="bar" style="width:${(r.n / max * 54 + 6).toFixed(0)}px"></span>
+        <span class="bar" style="width:${(r.n / max * 56 + 6).toFixed(0)}px"></span>
         <span class="facet-n">${tab === "notes" ? rasaEmoji(r.x) + " " : ""}${esc(r.x)}</span>
         <span class="facet-c">${r.n}</span>
       </button>`).join("")
@@ -88,19 +87,6 @@ function render(){
     const pos = c.selectionStart; cari = c.value; render();
     const n = $("#cari"); if(n){ n.focus(); n.setSelectionRange(pos, pos); }
   });
-}
-
-function kartuKopi(k){
-  return `<a class="kartu" href="kopi.html?id=${encodeURIComponent(k.id)}">
-    <span class="kartu-top">
-      <span style="min-width:0">
-        <span class="kartu-id">${bendera(k.negara)} ${esc(k.origin || k.negara || "—")}</span>
-        <span class="kartu-n" style="display:block">${esc(k.nama || "Tanpa nama")}</span>
-        <span class="kartu-r">${esc(k.roaster || k.producer || "—")}</span>
-      </span>
-      <span class="chev" aria-hidden="true">›</span>
-    </span>
-  </a>`;
 }
 
 document.addEventListener("data-siap", render);

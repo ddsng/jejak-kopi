@@ -13,6 +13,7 @@ const SHELL = [
   "./pengaturan.html",
   "./assets/app.css",
   "./assets/app.js",
+  "./assets/seed.js",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./manifest.webmanifest"

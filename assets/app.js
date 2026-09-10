@@ -55,6 +55,28 @@ const BENDERA = {
 };
 const bendera = n => BENDERA[n] || "🌍";
 
+/* ---------- warna per negara ----------
+   Delapan palet teredam. Negara yang tidak terdaftar dapat salah satunya
+   secara tetap (dihitung dari namanya), jadi warnanya tidak pernah berubah-ubah. */
+const WARNA = {
+  "Indonesia":"id",
+  "Ethiopia":"et", "Etiopia":"et",
+  "Colombia":"co", "Kolombia":"co",
+  "Kenya":"ke",
+  "Brazil":"br", "Brasil":"br",
+  "Guatemala":"gt",
+  "Panama":"pa", "El Salvador":"pa",
+  "Costa Rica":"cr", "Honduras":"cr"
+};
+const SLOT = ["id","et","co","ke","br","gt","pa","cr"];
+function warnaNegara(n){
+  if(!n) return "xx";
+  if(WARNA[n]) return WARNA[n];
+  let h = 0;
+  for(let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0;
+  return SLOT[h % SLOT.length];
+}
+
 const NEGARA_UMUM = ["Indonesia","Ethiopia","Kenya","Colombia","Brazil","Guatemala",
 "Costa Rica","El Salvador","Honduras","Panama","Peru","Bolivia","Ecuador","Mexico",
 "Nicaragua","Rwanda","Burundi","Tanzania","Uganda","DR Congo","Yemen","India","Vietnam",
@@ -157,7 +179,12 @@ const Store = {
   /* --- baca cepat dari localStorage --- */
   muatLokal(){
     const d = ls.get(K_DATA, null);
-    if(d && Array.isArray(d.kopi)) this.data = d;
+    if(d && Array.isArray(d.kopi) && d.kopi.length){ this.data = d; }
+    else if(window.JEJAK_SEED && Array.isArray(window.JEJAK_SEED.kopi)){
+      // Dipakai saat pratinjau lokal (buka berkas langsung) atau kunjungan pertama
+      // sebelum data.json sempat terbaca. Digabung dengan versi asli begitu terhubung.
+      this.data = JSON.parse(JSON.stringify(window.JEJAK_SEED));
+    }
     this.siap = true;
   },
   simpanLokal(){ ls.set(K_DATA, this.data); },
@@ -362,7 +389,7 @@ function shell(opts){
       ["index.html", "Negara", '<path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>'],
       ["telusur.html", "Telusur", '<circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/>'],
       ["catat.html", "Catat", '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'],
-      ["pengaturan.html", "Atur", '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/>']
+      ["pengaturan.html", "Atur", '<path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h7M15 18h5"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="13" cy="18" r="2"/>']
     ];
     const now = (location.pathname.split("/").pop() || "index.html");
     tabs.innerHTML = items.map(([href, label, path]) =>
@@ -376,6 +403,59 @@ function shell(opts){
     p.dataset.s = e.detail.status;
     t.textContent = e.detail.pesan || e.detail.status;
   });
+}
+
+/* =====================================================================
+   KARTU TIKET — dipakai di beranda, daftar negara, dan hasil telusur
+   ===================================================================== */
+function tkv(k, v, cls){
+  const isi = v ? esc(v) : "belum diisi";
+  return `<span><span class="k">${k}</span>
+    <span class="v ${v ? (cls || "") : "kosong"}">${isi}</span></span>`;
+}
+
+function kartuTiket(k){
+  const w = warnaNegara(k.negara);
+  const notes = k.notes || [];
+  return `<a class="tk" data-w="${w}" href="kopi.html?id=${encodeURIComponent(k.id)}">
+    <span class="hd">
+      <span class="ctry">${esc(k.negara || "Tanpa negara")}</span>
+      <span class="nm">${esc(k.nama || "Tanpa nama")}</span>
+      <span class="org">${esc([k.origin, k.farm].filter(Boolean).join(" · ") || "asal belum diisi")}</span>
+    </span>
+    <span class="bd">
+      <span class="gr">
+        ${tkv("Producer", k.producer)}
+        ${tkv("Variety", (k.variety || []).join(", "))}
+        ${tkv("Process", k.process)}
+        ${tkv("Altitude", k.altitude, "alt")}
+      </span>
+      ${notes.length ? `<span class="rasa">
+        <span class="k">Tasting notes</span>
+        <span class="notes">${notes.map(n =>
+          `<span class="note"><em aria-hidden="true">${rasaEmoji(n)}</em>${esc(n)}</span>`).join("")}</span>
+      </span>` : ""}
+    </span>
+    <span class="perf"></span>
+    <span class="stub">
+      <span><span class="k">Roastery</span>
+        <span class="who">${esc(k.roaster || "—")}</span></span>
+      <span class="when"><span class="k">Roasted</span>
+        <span class="who">${k.roastDate ? esc(fmtDate(k.roastDate)) : "—"}</span></span>
+    </span>
+  </a>`;
+}
+
+function barisKopi(k){
+  return `<a class="baris" data-w="${warnaNegara(k.negara)}"
+      href="kopi.html?id=${encodeURIComponent(k.id)}">
+    <span class="dot"></span>
+    <span class="b">
+      <span class="n">${esc(k.nama || "Tanpa nama")}</span>
+      <span class="s">${esc([k.origin, k.negara, k.roaster].filter(Boolean).join(" · ") || "—")}</span>
+    </span>
+    <span class="chev" aria-hidden="true">›</span>
+  </a>`;
 }
 
 /* --- isi <datalist> --- */

@@ -4,13 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Catat kopi · Jejak Kopi</title>
-<meta name="theme-color" content="#2C5B40">
+<meta name="theme-color" content="#A2664B">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/app.css">
-<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
 <div class="app">
@@ -25,6 +24,7 @@
 <datalist id="dl-proses"></datalist>
 <datalist id="dl-roaster"></datalist>
 
+<script src="assets/seed.js"></script>
 <script src="assets/app.js"></script>
 <script>
 const ID = qs("id");
@@ -144,7 +144,7 @@ function render(){
 function gambarVar(){
   $("#varChips").innerHTML = draftVar.length
     ? draftVar.map(v => `<button type="button" aria-pressed="true" data-v="${esc(v)}">${esc(v)} ✕</button>`).join("")
-    : `<span class="muted" style="font-size:12.5px;color:var(--ink-faint)">belum ada</span>`;
+    : `<span class="muted" style="font-size:12.5px;color:var(--faint)">belum ada</span>`;
   $$("#varChips [data-v]").forEach(b => b.addEventListener("click", () => {
     draftVar = draftVar.filter(x => x !== b.dataset.v); gambarVar(); }));
 }
@@ -156,7 +156,7 @@ function tambahVar(){
 function gambarNotes(){
   $("#noteChips").innerHTML = draftNotes.length
     ? draftNotes.map(v => `<button type="button" aria-pressed="true" data-n="${esc(v)}">${rasaEmoji(v)} ${esc(v)} ✕</button>`).join("")
-    : `<span class="muted" style="font-size:12.5px;color:var(--ink-faint)">belum ada</span>`;
+    : `<span class="muted" style="font-size:12.5px;color:var(--faint)">belum ada</span>`;
   $$("#noteChips [data-n]").forEach(b => b.addEventListener("click", () => {
     draftNotes = draftNotes.filter(x => x !== b.dataset.n); gambarNotes(); gambarPilihan(); }));
 }

@@ -9,6 +9,9 @@ tanpa server, dengan GitHub sebagai tempat penyimpanan datanya.
 - Data tinggal di `data.json` di repo ini. Setiap perubahan dari aplikasi
   menjadi satu commit, jadi seluruh riwayat arsipmu terversi di git.
 - Bisa dipasang di layar depan HP (PWA) dan tetap terbuka saat luring.
+- Setiap kopi tampil sebagai **kartu tiket**: kepala berwarna menurut negara asal,
+  badan berisi spesifikasi dan catatan rasa, sobekan bawah berisi roastery dan
+  tanggal sangrai.
 
 ---
 
@@ -22,8 +25,9 @@ catat.html            Formulir tambah / ubah kopi
 telusur.html          Telusur per varietas, proses, roaster, daerah, rasa
 pengaturan.html       Koneksi GitHub, cadangan, tema
 data.json             ARSIPMU — satu-satunya berkas yang berubah saat mencatat
-assets/app.css        Semua gaya
-assets/app.js         Data, sinkronisasi GitHub, kerangka halaman
+assets/app.css        Semua gaya — palet negara ada di blok :root paling atas
+assets/app.js         Data, sinkronisasi GitHub, kartu tiket, kerangka halaman
+assets/seed.js        Salinan data.json untuk pratinjau lokal (lihat catatan di bawah)
 assets/icon-*.png     Ikon aplikasi
 manifest.webmanifest  Supaya bisa dipasang di layar depan HP
 sw.js                 Service worker — mode luring
@@ -31,6 +35,18 @@ sw.js                 Service worker — mode luring
 ```
 
 ---
+
+## 0. Melihatnya dulu tanpa GitHub
+
+Buka `index.html` dengan klik dua kali. Semua halaman bisa dijelajahi dan arsip terisi
+dari `assets/seed.js`. Catatan yang kamu tambah tersimpan di browser saja.
+
+Kalau ada yang tidak jalan (beberapa browser membatasi berkas lokal), jalankan server
+kecil dari dalam folder ini lalu buka <http://localhost:8000>:
+
+```bash
+python3 -m http.server 8000
+```
 
 ## 1. Buat repo dan unggah
 
@@ -185,10 +201,29 @@ GitHub Pages tidak melayani repo private di paket gratis. Dua jalan keluar:
 Buka masing-masing lewat aplikasi lalu tekan **Hapus**, atau sunting
 `data.json` langsung di GitHub dan sisakan yang kamu mau.
 
+## Soal seed.js
+
+`assets/seed.js` adalah salinan `data.json` dalam bentuk JavaScript. Gunanya cuma dua:
+membuat pratinjau lokal bisa jalan tanpa server, dan mengisi layar pada kunjungan
+pertama sebelum `data.json` sempat terbaca. Begitu aplikasi terhubung, isinya digabung
+dengan versi asli di GitHub — yang paling baru menang, jadi tidak akan menimpa apa pun.
+
+Kamu tidak wajib memperbaruinya. Kalau mau menyegarkan, jalankan dari folder repo:
+
+```bash
+python3 -c "import json;d=open('data.json',encoding='utf-8').read();open('assets/seed.js','w',encoding='utf-8').write('window.JEJAK_SEED = '+d+';')"
+```
+
 ## Menyetel tampilan
 
 - Warna, jenis huruf, dan jarak semuanya ada di `assets/app.css`, di blok
-  `:root` paling atas. Ganti `--accent` untuk mengubah warna utama.
+  `:root` paling atas. Palet per negara ada tepat di bawahnya sebagai `[data-w="id"]`
+  dan seterusnya — tiap negara punya empat nilai: `--c` (aksen), `--block` (kepala
+  kartu), `--tint` (sobekan), `--deep` (tulisan).
+- Negara mana memakai palet mana diatur di `WARNA` dalam `assets/app.js`. Negara yang
+  tidak terdaftar dapat salah satu palet secara tetap, dihitung dari namanya.
+- Aplikasi ini sengaja hanya punya mode terang. Kalau nanti mau mode gelap,
+  palet negaranya perlu disusun ulang supaya tetap kontras di latar gelap.
 - Emoji untuk catatan rasa diatur di `RASA_EMOJI` dalam `assets/app.js`.
 - Daftar saran (varietas, proses, negara, metode seduh) ada tepat di bawahnya.
 - Setelah mengubah berkas, naikkan `VERSI` di `sw.js` supaya perangkat yang

@@ -5,15 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Jejak Kopi</title>
 <meta name="description" content="Arsip telusur kopi — dari origin sampai cangkir.">
-<meta name="theme-color" content="#2C5B40">
+<meta name="theme-color" content="#A2664B">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Jejak Kopi">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/app.css">
-<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
 <div class="app">
@@ -22,6 +21,7 @@
 </div>
 <nav class="tabs" id="appTabs"></nav>
 
+<script src="assets/seed.js"></script>
 <script src="assets/app.js"></script>
 <script>
 shell({});
@@ -33,12 +33,12 @@ function render(){
   const negaraMap = new Map();
   kopi.forEach(k => {
     const n = k.negara || "Tanpa negara";
-    const e = negaraMap.get(n) || { n: 0, daerah: new Set() };
-    e.n++; if(k.origin) e.daerah.add(k.origin);
-    negaraMap.set(n, e);
+    if(!negaraMap.has(n)) negaraMap.set(n, { jml:0, daerah:new Set() });
+    const e = negaraMap.get(n);
+    e.jml++; if(k.origin) e.daerah.add(k.origin);
   });
   const negara = Array.from(negaraMap.entries())
-    .map(([nama, e]) => ({ nama, jml: e.n, daerah: Array.from(e.daerah) }))
+    .map(([nama, e]) => ({ nama, jml:e.jml, daerah:Array.from(e.daerah) }))
     .sort((a, b) => b.jml - a.jml || a.nama.localeCompare(b.nama));
 
   const varietas = new Set();
@@ -63,44 +63,27 @@ function render(){
   }
 
   const kartuNegara = negara.map(g => `
-    <a class="negara" href="negara.html?n=${encodeURIComponent(g.nama)}">
+    <a class="negara" data-w="${warnaNegara(g.nama)}"
+       href="negara.html?n=${encodeURIComponent(g.nama)}">
       <span class="flag" aria-hidden="true">${bendera(g.nama)}</span>
       <span class="negara-b">
         <span class="negara-n">${esc(g.nama)}</span>
-        <span class="negara-d">${esc(g.daerah.slice(0, 4).join(" · ") || "—")}</span>
+        <span class="negara-d">${esc(g.daerah.slice(0, 4).join(" · ") || "daerah belum dicatat")}</span>
       </span>
-      <span class="negara-c">${g.jml}<br>kopi</span>
+      <span class="negara-c">${g.jml}<small>kopi</small></span>
       <span class="chev" aria-hidden="true">›</span>
     </a>`).join("");
 
   const baru = kopi.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 3);
 
   v.innerHTML = strip + `
-    <div class="sec-head" style="margin-top:22px">
+    <div class="sec-head" style="margin-top:24px">
       <h2 class="sec-title">Negara asal</h2>
       <a class="sec-act" href="catat.html">+ kopi baru</a>
     </div>
     ${kartuNegara}
-    <div class="sec-head" style="margin-top:24px"><h2 class="sec-title">Terakhir ditambahkan</h2></div>
-    ${baru.map(kartuKopi).join("")}`;
-}
-
-function kartuKopi(k){
-  const tags = [];
-  (k.variety || []).slice(0, 2).forEach(x => tags.push(`<span class="tag var">${esc(x)}</span>`));
-  if(k.process) tags.push(`<span class="tag proc">${esc(k.process)}</span>`);
-  if(k.altitude) tags.push(`<span class="tag">${esc(k.altitude)}</span>`);
-  return `<a class="kartu" href="kopi.html?id=${encodeURIComponent(k.id)}">
-    <span class="kartu-top">
-      <span style="min-width:0">
-        <span class="kartu-id">${bendera(k.negara)} ${esc(k.origin || k.negara || "—")}</span>
-        <span class="kartu-n" style="display:block">${esc(k.nama || "Tanpa nama")}</span>
-        <span class="kartu-r">${esc(k.roaster || k.producer || "—")}</span>
-      </span>
-      <span class="chev" aria-hidden="true">›</span>
-    </span>
-    ${tags.length ? `<span class="meta">${tags.join("")}</span>` : ""}
-  </a>`;
+    <div class="sec-head" style="margin-top:28px"><h2 class="sec-title">Terakhir ditambahkan</h2></div>
+    ${baru.map(kartuTiket).join("")}`;
 }
 
 document.addEventListener("data-siap", render);
