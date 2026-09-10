@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-10T14:31:40.150Z",
+  "diperbarui": "2026-09-10T14:32:00.652Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -136,7 +136,9 @@
       "origin": "temanggung/ jawa tengah",
       "farm": "jb coffee",
       "producer": "reza",
-      "variety": [],
+      "variety": [
+        "liberica"
+      ],
       "process": "triple yeast",
       "altitude": "",
       "roaster": "tadasih",
@@ -151,7 +153,7 @@
       "catatan": "",
       "seduhan": [],
       "createdAt": 1789050699725,
-      "updatedAt": 1789050699725
+      "updatedAt": 1789050720256
     }
   ]
 }
