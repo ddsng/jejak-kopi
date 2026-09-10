@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pengaturan · Jejak Kopi</title>
+<meta name="theme-color" content="#2C5B40">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/app.css">
+<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="app">
+  <header class="top" id="appTop"></header>
+  <main class="view" id="view"></main>
+</div>
+<nav class="tabs" id="appTabs"></nav>
+
+<script src="assets/app.js"></script>
+<script>
+shell({});
+
+function render(){
+  const c = Store.cfg || {};
+  const punyaToken = !!Store.token;
+  const jml = Store.kopi().length;
+
+  $("#view").innerHTML = `
+    <h1 class="page-title">Pengaturan</h1>
+    <div class="page-sub" style="margin-bottom:16px">${jml} kopi di arsip</div>
+
+    <div class="sec-head"><h2 class="sec-title">Status</h2></div>
+    <div class="info" style="margin-bottom:20px">
+      <div class="info-row"><span class="info-e">📡</span><span class="info-k">Mode</span>
+        <span class="info-v" id="stMode">—</span></div>
+      <div class="info-row"><span class="info-e">📁</span><span class="info-k">Repo</span>
+        <span class="info-v">${c.owner && c.repo ? esc(c.owner + "/" + c.repo) : "belum diatur"}</span></div>
+      <div class="info-row"><span class="info-e">🔑</span><span class="info-k">Token</span>
+        <span class="info-v">${punyaToken ? "terpasang di perangkat ini" : "belum ada"}</span></div>
+    </div>
+
+    <div class="btn-row" style="margin-top:0">
+      <button class="btn ghost" id="tarik" style="flex:1">Tarik dari GitHub</button>
+      <button class="btn" id="dorong" style="flex:1">Kirim ke GitHub</button>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="sec-head"><h2 class="sec-title">Koneksi GitHub</h2></div>
+    <div class="banner">Token disimpan <b>hanya di browser perangkat ini</b> dan tidak pernah
+      ikut ter-commit ke repo. Kalau kamu pakai HP dan laptop, tempel token di masing-masing.
+      Pakai <i>fine-grained personal access token</i> yang dibatasi ke satu repo ini saja,
+      dengan izin <b>Contents: Read and write</b>.</div>
+
+    <div class="grid2">
+      <div class="f"><label for="owner">Owner</label>
+        <input type="text" id="owner" value="${esc(c.owner || "")}" placeholder="username" autocapitalize="off" autocorrect="off"></div>
+      <div class="f"><label for="repo">Repo</label>
+        <input type="text" id="repo" value="${esc(c.repo || "")}" placeholder="jejak-kopi" autocapitalize="off" autocorrect="off"></div>
+    </div>
+    <div class="grid2">
+      <div class="f"><label for="branch">Branch</label>
+        <input type="text" id="branch" value="${esc(c.branch || "main")}" autocapitalize="off" autocorrect="off"></div>
+      <div class="f"><label for="path">Berkas data</label>
+        <input type="text" id="path" value="${esc(c.path || "data.json")}" autocapitalize="off" autocorrect="off"></div>
+    </div>
+    <div class="f"><label for="token">Personal access token</label>
+      <input type="password" id="token" value="${esc(Store.token || "")}"
+        placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <div class="hint">Buat di GitHub → Settings → Developer settings →
+        Personal access tokens → Fine-grained tokens.</div></div>
+
+    <div class="btn-row">
+      <button class="btn wide" id="simpanCfg">Simpan &amp; tes koneksi</button>
+    </div>
+    ${punyaToken ? `<div class="btn-row">
+      <button class="btn ghost wide" id="lupakan">Hapus token dari perangkat ini</button></div>` : ""}
+
+    <div class="hr"></div>
+
+    <div class="sec-head"><h2 class="sec-title">Cadangan</h2></div>
+    <div class="stack">
+      <button class="btn ghost wide" id="ekspor">Unduh arsip (JSON)</button>
+      <label class="btn ghost wide" for="imporFile" style="cursor:pointer">Impor dari berkas JSON</label>
+      <input type="file" id="imporFile" accept="application/json,.json" style="display:none">
+      <button class="btn danger wide" id="bersihkan">Hapus salinan lokal di perangkat ini</button>
+    </div>
+    <p class="muted" style="margin-top:10px">Menghapus salinan lokal tidak menghapus apa pun
+      di GitHub — data akan ditarik ulang saat halaman dibuka lagi.</p>
+
+    <div class="hr"></div>
+    <div class="sec-head"><h2 class="sec-title">Tampilan</h2></div>
+    <div class="chips" style="margin-bottom:0">
+      <button class="chip" data-tema="auto">Ikut sistem</button>
+      <button class="chip" data-tema="light">Terang</button>
+      <button class="chip" data-tema="dark">Gelap</button>
+    </div>
+    <div style="height:20px"></div>`;
+
+  perbaruiStatus();
+  pasangTema();
+
+  $("#simpanCfg").addEventListener("click", async () => {
+    const g = i => document.getElementById(i).value.trim();
+    Store.simpanCfg({ owner: g("owner"), repo: g("repo"),
+      branch: g("branch") || "main", path: g("path") || "data.json" });
+    Store.simpanToken(g("token"));
+    if(!Store.bisaTulis()){ toast("Owner, repo, dan token harus terisi semua."); render(); return; }
+    toast("Menguji koneksi…");
+    const ok = await Store.tarik();
+    toast(ok ? "Berhasil terhubung ke GitHub." : (Store.pesan || "Gagal terhubung."));
+    render();
+  });
+
+  const l = $("#lupakan");
+  if(l) l.addEventListener("click", () => {
+    if(!confirm("Hapus token dari perangkat ini? Kamu jadi mode baca sampai memasangnya lagi.")) return;
+    Store.simpanToken(""); Store.setStatus("off", "mode baca");
+    toast("Token dihapus."); render();
+  });
+
+  $("#tarik").addEventListener("click", async () => {
+    const ok = await Store.tarik();
+    toast(ok ? "Arsip ditarik dari GitHub." : (Store.pesan || "Gagal menarik."));
+    render();
+  });
+  $("#dorong").addEventListener("click", async () => {
+    if(!Store.bisaTulis()){ toast("Pasang token dulu."); return; }
+    const ok = await Store.dorong();
+    toast(ok ? "Arsip terkirim ke GitHub." : (Store.pesan || "Gagal mengirim."));
+    render();
+  });
+
+  $("#ekspor").addEventListener("click", () => {
+    const isi = JSON.stringify(Store.data, null, 2);
+    const blob = new Blob([isi], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "jejak-kopi-" + new Date().toISOString().slice(0, 10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
+  $("#imporFile").addEventListener("change", async e => {
+    const f = e.target.files && e.target.files[0]; if(!f) return;
+    try{
+      const teks = await f.text();
+      const j = JSON.parse(teks);
+      const masuk = Array.isArray(j) ? j : (j.kopi || j.lots || []);
+      if(!Array.isArray(masuk) || !masuk.length) throw new Error("tidak ada data kopi");
+      masuk.forEach(x => { if(!x.updatedAt) x.updatedAt = Date.now(); });
+      Store.data.kopi = Store.gabung(Store.data.kopi, masuk);
+      Store.simpanLokal(); Store.tandaiKotor();
+      toast(masuk.length + " catatan diimpor.");
+      if(Store.bisaTulis()) await Store.dorong();
+      render();
+    }catch(err){ toast("Berkas tidak terbaca: " + (err.message || "format salah")); }
+    e.target.value = "";
+  });
+
+  $("#bersihkan").addEventListener("click", () => {
+    if(!confirm("Hapus salinan lokal di perangkat ini? Data di GitHub tetap aman.")) return;
+    ls.del("jejakkopi.data.v1"); ls.del("jejakkopi.sha.v1"); ls.del("jejakkopi.kotor");
+    location.reload();
+  });
+}
+
+function perbaruiStatus(){
+  const el = $("#stMode"); if(!el) return;
+  const s = Store.status, p = Store.pesan;
+  const teks = s === "ok" ? "Tersinkron dengan GitHub"
+    : s === "dirty" ? "Ada perubahan yang belum terkirim"
+    : s === "busy" ? "Sedang bekerja…"
+    : s === "err" ? "Bermasalah — " + p
+    : "Belum tersambung — tersimpan di perangkat ini saja";
+  el.textContent = teks;
+  el.style.color = s === "err" ? "var(--crit)" : s === "dirty" ? "var(--warn)"
+    : s === "ok" ? "var(--good)" : "";
+}
+
+function pasangTema(){
+  const now = ls.get("jejakkopi.tema", "auto");
+  $$("[data-tema]").forEach(b => {
+    b.setAttribute("aria-pressed", b.dataset.tema === now);
+    b.addEventListener("click", () => {
+      const t = b.dataset.tema;
+      ls.set("jejakkopi.tema", t);
+      if(t === "auto") document.documentElement.removeAttribute("data-theme");
+      else document.documentElement.setAttribute("data-theme", t);
+      pasangTema();
+    });
+  });
+}
+
+document.addEventListener("sync", perbaruiStatus);
+document.addEventListener("data-siap", render);
+Store.init();
+</script>
+</body>
+</html>

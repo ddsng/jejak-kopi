@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Negara · Jejak Kopi</title>
+<meta name="theme-color" content="#2C5B40">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/app.css">
+<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="app">
+  <header class="top" id="appTop"></header>
+  <main class="view" id="view"></main>
+</div>
+<nav class="tabs" id="appTabs"></nav>
+
+<script src="assets/app.js"></script>
+<script>
+shell({ kembali: "index.html", kembaliTeks: "semua negara" });
+
+const NEGARA = qs("n");
+let filterProses = "";
+
+function render(){
+  const v = $("#view");
+  const semua = Store.kopi().filter(k => (k.negara || "Tanpa negara") === NEGARA);
+  document.title = NEGARA + " · Jejak Kopi";
+
+  if(!semua.length){
+    v.innerHTML = `<h1 class="page-title">${esc(NEGARA)}</h1>
+      <div class="empty"><p>Belum ada kopi dari negara ini di arsipmu.</p>
+      <a class="btn ghost" href="catat.html">Catat satu</a></div>`;
+    return;
+  }
+
+  const prosesSet = Array.from(new Set(semua.map(k => k.process).filter(Boolean))).sort();
+  let list = filterProses ? semua.filter(k => k.process === filterProses) : semua;
+
+  // kelompokkan per daerah asal
+  const perDaerah = new Map();
+  list.forEach(k => {
+    const d = k.origin || "Daerah tidak dicatat";
+    if(!perDaerah.has(d)) perDaerah.set(d, []);
+    perDaerah.get(d).push(k);
+  });
+  const daerah = Array.from(perDaerah.entries())
+    .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+
+  const varietas = new Set();
+  semua.forEach(k => (k.variety || []).forEach(x => varietas.add(x)));
+
+  v.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <span style="font-size:42px;line-height:1" aria-hidden="true">${bendera(NEGARA)}</span>
+      <span>
+        <h1 class="page-title" style="margin:0">${esc(NEGARA)}</h1>
+        <div class="page-sub">${semua.length} kopi · ${perDaerah.size} daerah · ${varietas.size} varietas</div>
+      </span>
+    </div>
+
+    ${prosesSet.length > 1 ? `<div class="chips">
+      <button class="chip" data-p="" aria-pressed="${!filterProses}">Semua proses</button>
+      ${prosesSet.map(p => `<button class="chip" data-p="${esc(p)}"
+        aria-pressed="${filterProses === p}">${esc(p)}</button>`).join("")}
+    </div>` : ""}
+
+    ${daerah.map(([nama, arr]) => `
+      <div class="sec-head" style="margin-top:18px">
+        <h2 class="sec-title">${esc(nama)}</h2>
+        <span class="sec-act" style="color:var(--ink-faint)">${arr.length}</span>
+      </div>
+      ${arr.sort((a,b) => (b.createdAt||0)-(a.createdAt||0)).map(kartuKopi).join("")}
+    `).join("")}`;
+
+  $$("[data-p]").forEach(b => b.addEventListener("click", () => {
+    filterProses = b.dataset.p; render(); window.scrollTo(0, 0);
+  }));
+}
+
+function kartuKopi(k){
+  const tags = [];
+  (k.variety || []).slice(0, 2).forEach(x => tags.push(`<span class="tag var">${esc(x)}</span>`));
+  if(k.process) tags.push(`<span class="tag proc">${esc(k.process)}</span>`);
+  if(k.altitude) tags.push(`<span class="tag">${esc(k.altitude)}</span>`);
+  const rasa = (k.notes || []).slice(0, 3).map(n => rasaEmoji(n) + " " + n).join("  ");
+  return `<a class="kartu" href="kopi.html?id=${encodeURIComponent(k.id)}">
+    <span class="kartu-top">
+      <span style="min-width:0">
+        <span class="kartu-n" style="display:block;margin-top:0">${esc(k.nama || "Tanpa nama")}</span>
+        <span class="kartu-r">${esc([k.farm, k.roaster].filter(Boolean).join(" · ") || "—")}</span>
+      </span>
+      <span class="chev" aria-hidden="true">›</span>
+    </span>
+    ${tags.length ? `<span class="meta">${tags.join("")}</span>` : ""}
+    ${rasa ? `<span class="kartu-r" style="display:block;margin-top:8px">${esc(rasa)}</span>` : ""}
+  </a>`;
+}
+
+document.addEventListener("data-siap", render);
+document.addEventListener("data-baru", render);
+Store.init();
+</script>
+</body>
+</html>

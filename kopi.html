@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kopi · Jejak Kopi</title>
+<meta name="theme-color" content="#2C5B40">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/app.css">
+<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="app">
+  <header class="top" id="appTop"></header>
+  <main class="view" id="view"></main>
+</div>
+<nav class="tabs" id="appTabs"></nav>
+
+<script src="assets/app.js"></script>
+<script>
+const ID = qs("id");
+
+function render(){
+  const v = $("#view");
+  const k = Store.cari(ID);
+  if(!k){
+    shell({ kembali: "index.html", kembaliTeks: "beranda" });
+    v.innerHTML = `<div class="empty"><h3>Kopi tidak ditemukan</h3>
+      <p>Catatan ini mungkin sudah dihapus, atau tautannya salah.</p>
+      <a class="btn ghost" href="index.html">Kembali ke beranda</a></div>`;
+    return;
+  }
+  shell({ kembali: k.negara ? "negara.html?n=" + encodeURIComponent(k.negara) : "index.html",
+          kembaliTeks: k.negara || "beranda" });
+  document.title = (k.nama || "Kopi") + " · Jejak Kopi";
+
+  const hari = hariRoast(k.roastDate);
+  const kesegaran = hari === null ? null
+    : hari <= 21 ? ["good", "puncak rasa"]
+    : hari <= 45 ? ["warn", "masih oke"]
+    : ["crit", "sudah lewat"];
+
+  const originPenuh = [k.origin, k.negara].filter(Boolean).join(", ");
+  const baris = [
+    ["🌱", "Origin", originPenuh,
+      k.negara ? "negara.html?n=" + encodeURIComponent(k.negara) : null],
+    ["🏡", "Farm", k.farm, null],
+    ["👨‍🌾", "Producer", k.producer, null],
+    ["🌿", "Variety", (k.variety || []).join(", "),
+      (k.variety || [])[0] ? "telusur.html?f=variety&v=" + encodeURIComponent(k.variety[0]) : null],
+    ["⚙️", "Process", k.process,
+      k.process ? "telusur.html?f=process&v=" + encodeURIComponent(k.process) : null],
+    ["⛰️", "Altitude", k.altitude, null],
+    ["🔥", "Roaster", k.roaster,
+      k.roaster ? "telusur.html?f=roaster&v=" + encodeURIComponent(k.roaster) : null],
+    ["📅", "Roast date", k.roastDate ? fmtDate(k.roastDate) : "", null]
+  ].map(([e, label, val, href]) => {
+    const isi = `<span class="info-e" aria-hidden="true">${e}</span>
+      <span class="info-k">${label}</span>
+      <span class="info-v ${val ? "" : "kosong"}">${esc(val || "belum diisi")}</span>
+      ${href && val ? `<span class="chev" aria-hidden="true">›</span>` : ""}`;
+    return href && val
+      ? `<a class="info-row" href="${href}">${isi}</a>`
+      : `<div class="info-row">${isi}</div>`;
+  }).join("");
+
+  const notes = (k.notes || []);
+  const seduhan = (k.seduhan || []).slice()
+    .sort((a, b) => String(b.tanggal).localeCompare(String(a.tanggal)));
+
+  v.innerHTML = `
+    <div class="page-sub">${bendera(k.negara)} ${esc(k.negara || "—")}</div>
+    <h1 class="page-title">${esc(k.nama || "Tanpa nama")}</h1>
+    ${kesegaran ? `<div class="page-sub" style="color:var(--${kesegaran[0]})">
+      ${hari} hari sejak roasting · ${kesegaran[1]}</div>` : ""}
+
+    <div class="sec-head" style="margin-top:18px"><h2 class="sec-title">Informasi</h2>
+      <a class="sec-act" href="catat.html?id=${encodeURIComponent(k.id)}">ubah</a></div>
+    <div class="info">${baris}</div>
+
+    <div class="sec-head" style="margin-top:22px"><h2 class="sec-title">Tasting notes</h2></div>
+    ${notes.length
+      ? `<div class="notes">${notes.map(n =>
+          `<span class="note-chip"><em aria-hidden="true">${rasaEmoji(n)}</em>${esc(n)}</span>`).join("")}</div>`
+      : `<p class="muted" style="margin:0">Belum ada catatan rasa.</p>`}
+
+    ${k.catatan ? `<div class="sec-head" style="margin-top:22px">
+        <h2 class="sec-title">Catatan</h2></div>
+      <p class="muted" style="margin:0;white-space:pre-wrap">${esc(k.catatan)}</p>` : ""}
+
+    <div class="sec-head" style="margin-top:24px"><h2 class="sec-title">Riwayat seduhan</h2>
+      <button class="sec-act" id="tambahSeduh">+ tambah</button></div>
+    <div id="seduhList">${seduhan.length ? seduhan.map(barisSeduh).join("")
+      : `<p class="muted" style="margin:0">Belum ada seduhan tercatat.</p>`}</div>
+
+    <div class="hr"></div>
+    <div class="btn-row">
+      <a class="btn ghost" href="catat.html?id=${encodeURIComponent(k.id)}"
+         style="flex:1">Ubah catatan</a>
+      <button class="btn danger" id="hapus">Hapus</button>
+    </div>`;
+
+  $("#tambahSeduh").addEventListener("click", () => formSeduh(k));
+  $("#hapus").addEventListener("click", async () => {
+    if(!confirm("Hapus catatan kopi ini?")) return;
+    await Store.hapus(k.id);
+    location.href = "index.html";
+  });
+}
+
+function barisSeduh(s){
+  const bits = [fmtDate(s.tanggal), s.dosis ? s.dosis + " g" : null,
+    s.air ? s.air + " ml" : null, s.suhu ? s.suhu + "°C" : null, s.waktu].filter(Boolean);
+  return `<div class="seduh">
+    <span class="seduh-m">${esc((s.metode || "?").split(" ")[0])}</span>
+    <span class="seduh-b">
+      <span class="seduh-d">${esc(bits.join(" · "))}</span>
+      ${s.catatan ? `<span class="seduh-n">${esc(s.catatan)}</span>` : ""}
+    </span>
+  </div>`;
+}
+
+/* --- formulir seduhan sederhana, langsung di halaman --- */
+function formSeduh(k){
+  const box = $("#seduhList");
+  if($("#formSeduh")) return;
+  const el = document.createElement("div");
+  el.id = "formSeduh";
+  el.style.cssText = "border:1px solid var(--rule);border-radius:var(--r);padding:12px;margin-bottom:12px;background:var(--paper-2)";
+  el.innerHTML = `
+    <div class="grid2">
+      <div class="f"><label for="sTgl">Tanggal</label>
+        <input type="date" id="sTgl" value="${new Date().toISOString().slice(0,10)}"></div>
+      <div class="f"><label for="sMet">Metode</label>
+        <input type="text" id="sMet" list="dl-metode" placeholder="V60"></div>
+    </div>
+    <div class="grid2">
+      <div class="f"><label for="sDos">Dosis (g)</label>
+        <input type="number" id="sDos" step="0.1" inputmode="decimal"></div>
+      <div class="f"><label for="sAir">Air (ml)</label>
+        <input type="number" id="sAir" inputmode="numeric"></div>
+    </div>
+    <div class="grid2">
+      <div class="f"><label for="sSuhu">Suhu (°C)</label>
+        <input type="number" id="sSuhu" inputmode="numeric"></div>
+      <div class="f"><label for="sWkt">Waktu</label>
+        <input type="text" id="sWkt" placeholder="2:45"></div>
+    </div>
+    <div class="f"><label for="sCat">Catatan</label>
+      <textarea id="sCat" placeholder="apa yang berubah dari seduhan sebelumnya?"></textarea></div>
+    <div class="btn-row" style="margin-top:4px">
+      <button class="btn" id="sSimpan" style="flex:1">Simpan seduhan</button>
+      <button class="btn ghost" id="sBatal">Batal</button>
+    </div>
+    <datalist id="dl-metode"></datalist>`;
+  box.prepend(el);
+  datalist("dl-metode", METODE_UMUM);
+  $("#sBatal").addEventListener("click", () => el.remove());
+  $("#sSimpan").addEventListener("click", async () => {
+    const g = i => { const e = document.getElementById(i); return e ? e.value.trim() : ""; };
+    const s = { id: uid(), tanggal: g("sTgl"), metode: g("sMet"),
+      dosis: parseFloat(g("sDos")) || null, air: parseFloat(g("sAir")) || null,
+      suhu: parseFloat(g("sSuhu")) || null, waktu: g("sWkt"), catatan: g("sCat") };
+    if(!s.metode && !s.catatan){ toast("Isi metode atau catatannya dulu."); return; }
+    const rec = Object.assign({}, Store.cari(ID));
+    rec.seduhan = (rec.seduhan || []).concat([s]);
+    await Store.simpan(rec);
+    render();
+    toast(Store.bisaTulis() ? "Seduhan tercatat."
+      : "Seduhan tersimpan di perangkat ini (belum terhubung GitHub).");
+  });
+}
+
+document.addEventListener("data-siap", render);
+document.addEventListener("data-baru", () => { if(!$("#formSeduh")) render(); });
+Store.init();
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{
+  "versi": 1,
+  "diperbarui": "2026-09-10T00:00:00.000Z",
+  "kopi": [
+    {
+      "id": "gayo-aceh-01",
+      "nama": "Gayo – Aceh",
+      "negara": "Indonesia",
+      "origin": "Gayo, Aceh",
+      "farm": "Kebun Suka Maju",
+      "producer": "Ahmad / Kelompok Tani Suka Maju",
+      "variety": ["Gayo 1"],
+      "process": "Washed",
+      "altitude": "1.400–1.600 mdpl",
+      "roaster": "Kopi Rumah Roastery",
+      "roastDate": "2026-09-05",
+      "notes": ["Chocolate", "Citrus", "Floral"],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1757462400000,
+      "updatedAt": 1757462400000
+    },
+    {
+      "id": "contoh-kerinci-01",
+      "nama": "Kerinci Red Honey",
+      "negara": "Indonesia",
+      "origin": "Kerinci, Jambi",
+      "farm": "Kebun Lempur",
+      "producer": "Koperasi Alam Kerinci",
+      "variety": ["Sigararutang"],
+      "process": "Red honey",
+      "altitude": "1.400–1.500 mdpl",
+      "roaster": "Kopi Rumah Roastery",
+      "roastDate": "2026-08-18",
+      "notes": ["Peach", "Honey", "Black tea"],
+      "catatan": "Entri contoh — hapus lewat halaman kopi ini kalau tidak dipakai.",
+      "seduhan": [
+        {
+          "id": "s1",
+          "tanggal": "2026-08-24",
+          "metode": "V60",
+          "dosis": 15,
+          "air": 240,
+          "suhu": 93,
+          "waktu": "2:40",
+          "catatan": "Honey merah terasa lebih sirupy daripada yang natural."
+        }
+      ],
+      "createdAt": 1755561600000,
+      "updatedAt": 1755561600000
+    },
+    {
+      "id": "contoh-guji-01",
+      "nama": "Guji Uraga",
+      "negara": "Ethiopia",
+      "origin": "Uraga, Guji",
+      "farm": "Stasiun cuci Uraga",
+      "producer": "Petani sekitar stasiun cuci",
+      "variety": ["Heirloom", "74110"],
+      "process": "Washed",
+      "altitude": "1.950–2.100 mdpl",
+      "roaster": "Kopi Rumah Roastery",
+      "roastDate": "2026-07-30",
+      "notes": ["Jasmine", "Lemon", "Black tea", "Peach"],
+      "catatan": "Entri contoh — hapus kalau tidak dipakai.",
+      "seduhan": [],
+      "createdAt": 1753833600000,
+      "updatedAt": 1753833600000
+    },
+    {
+      "id": "contoh-huila-01",
+      "nama": "Huila Pink Bourbon",
+      "negara": "Colombia",
+      "origin": "Huila, Pitalito",
+      "farm": "Finca El Mirador",
+      "producer": "Familia Ramírez",
+      "variety": ["Pink Bourbon"],
+      "process": "Anaerobic natural",
+      "altitude": "1.750–1.850 mdpl",
+      "roaster": "Kopi Rumah Roastery",
+      "roastDate": "2026-08-02",
+      "notes": ["Strawberry", "Winey", "Caramel"],
+      "catatan": "Entri contoh — hapus kalau tidak dipakai.",
+      "seduhan": [],
+      "createdAt": 1754006400000,
+      "updatedAt": 1754006400000
+    }
+  ]
+}

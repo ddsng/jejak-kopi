@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jejak Kopi</title>
+<meta name="description" content="Arsip telusur kopi — dari origin sampai cangkir.">
+<meta name="theme-color" content="#2C5B40">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Jejak Kopi">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/app.css">
+<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="app">
+  <header class="top" id="appTop"></header>
+  <main class="view" id="view"></main>
+</div>
+<nav class="tabs" id="appTabs"></nav>
+
+<script src="assets/app.js"></script>
+<script>
+shell({});
+
+function render(){
+  const kopi = Store.kopi();
+  const v = $("#view");
+
+  const negaraMap = new Map();
+  kopi.forEach(k => {
+    const n = k.negara || "Tanpa negara";
+    const e = negaraMap.get(n) || { n: 0, daerah: new Set() };
+    e.n++; if(k.origin) e.daerah.add(k.origin);
+    negaraMap.set(n, e);
+  });
+  const negara = Array.from(negaraMap.entries())
+    .map(([nama, e]) => ({ nama, jml: e.n, daerah: Array.from(e.daerah) }))
+    .sort((a, b) => b.jml - a.jml || a.nama.localeCompare(b.nama));
+
+  const varietas = new Set();
+  kopi.forEach(k => (k.variety || []).forEach(x => varietas.add(x)));
+  const roaster = new Set(kopi.map(k => k.roaster).filter(Boolean));
+
+  const strip = `<div class="strip">
+    <div><b>${kopi.length}</b><small>kopi</small></div>
+    <div><b>${negara.length}</b><small>negara</small></div>
+    <div><b>${varietas.size}</b><small>varietas</small></div>
+    <div><b>${roaster.size}</b><small>roaster</small></div>
+  </div>`;
+
+  if(!kopi.length){
+    v.innerHTML = strip + `<div class="empty">
+      <h3>Arsip masih kosong</h3>
+      <p>Catat sekantong kopi: origin, kebun, produser, varietas, proses, ketinggian,
+         roaster, dan catatan rasanya. Kopi akan dikelompokkan otomatis per negara.</p>
+      <a class="btn" href="catat.html">Catat kopi pertama</a>
+    </div>`;
+    return;
+  }
+
+  const kartuNegara = negara.map(g => `
+    <a class="negara" href="negara.html?n=${encodeURIComponent(g.nama)}">
+      <span class="flag" aria-hidden="true">${bendera(g.nama)}</span>
+      <span class="negara-b">
+        <span class="negara-n">${esc(g.nama)}</span>
+        <span class="negara-d">${esc(g.daerah.slice(0, 4).join(" · ") || "—")}</span>
+      </span>
+      <span class="negara-c">${g.jml}<br>kopi</span>
+      <span class="chev" aria-hidden="true">›</span>
+    </a>`).join("");
+
+  const baru = kopi.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 3);
+
+  v.innerHTML = strip + `
+    <div class="sec-head" style="margin-top:22px">
+      <h2 class="sec-title">Negara asal</h2>
+      <a class="sec-act" href="catat.html">+ kopi baru</a>
+    </div>
+    ${kartuNegara}
+    <div class="sec-head" style="margin-top:24px"><h2 class="sec-title">Terakhir ditambahkan</h2></div>
+    ${baru.map(kartuKopi).join("")}`;
+}
+
+function kartuKopi(k){
+  const tags = [];
+  (k.variety || []).slice(0, 2).forEach(x => tags.push(`<span class="tag var">${esc(x)}</span>`));
+  if(k.process) tags.push(`<span class="tag proc">${esc(k.process)}</span>`);
+  if(k.altitude) tags.push(`<span class="tag">${esc(k.altitude)}</span>`);
+  return `<a class="kartu" href="kopi.html?id=${encodeURIComponent(k.id)}">
+    <span class="kartu-top">
+      <span style="min-width:0">
+        <span class="kartu-id">${bendera(k.negara)} ${esc(k.origin || k.negara || "—")}</span>
+        <span class="kartu-n" style="display:block">${esc(k.nama || "Tanpa nama")}</span>
+        <span class="kartu-r">${esc(k.roaster || k.producer || "—")}</span>
+      </span>
+      <span class="chev" aria-hidden="true">›</span>
+    </span>
+    ${tags.length ? `<span class="meta">${tags.join("")}</span>` : ""}
+  </a>`;
+}
+
+document.addEventListener("data-siap", render);
+document.addEventListener("data-baru", render);
+Store.init();
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Catat kopi · Jejak Kopi</title>
+<meta name="theme-color" content="#2C5B40">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/app.css">
+<script>try{var t=JSON.parse(localStorage.getItem("jejakkopi.tema"));if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="app">
+  <header class="top" id="appTop"></header>
+  <main class="view" id="view"></main>
+</div>
+<nav class="tabs" id="appTabs"></nav>
+
+<datalist id="dl-negara"></datalist>
+<datalist id="dl-origin"></datalist>
+<datalist id="dl-varietas"></datalist>
+<datalist id="dl-proses"></datalist>
+<datalist id="dl-roaster"></datalist>
+
+<script src="assets/app.js"></script>
+<script>
+const ID = qs("id");
+let draftVar = [], draftNotes = [];
+
+function render(){
+  const k = ID ? Store.cari(ID) : null;
+  shell({ kembali: k ? "kopi.html?id=" + encodeURIComponent(k.id) : "index.html",
+          kembaliTeks: k ? "batal" : "beranda" });
+  document.title = (k ? "Ubah" : "Catat kopi") + " · Jejak Kopi";
+
+  if(ID && !k){
+    $("#view").innerHTML = `<div class="empty"><h3>Catatan tidak ditemukan</h3>
+      <a class="btn ghost" href="index.html">Kembali</a></div>`;
+    return;
+  }
+
+  draftVar = (k && k.variety) ? k.variety.slice() : [];
+  draftNotes = (k && k.notes) ? k.notes.slice() : [];
+  const d = k || {};
+
+  $("#view").innerHTML = `
+    <h1 class="page-title">${k ? "Ubah catatan" : "Kopi baru"}</h1>
+    <div class="page-sub" style="margin-bottom:16px">${k ? "perbarui informasi lot ini" : "satu kantong = satu catatan"}</div>
+
+    ${Store.bisaTulis() ? "" : `<div class="banner">Belum tersambung ke GitHub — catatan akan
+      tersimpan <b>di perangkat ini saja</b> dan tidak ikut ke arsip.
+      <a href="pengaturan.html">Pasang token di Pengaturan</a> supaya tersinkron.</div>`}
+
+    <div class="f"><label for="nama">Nama kopi</label>
+      <input type="text" id="nama" value="${esc(d.nama || "")}" placeholder="mis. Gayo – Aceh"></div>
+
+    <div class="sec-head" style="margin-top:18px"><h2 class="sec-title">🌱 Asal</h2></div>
+    <div class="f"><label for="negara">Negara</label>
+      <input type="text" id="negara" list="dl-negara" value="${esc(d.negara || "")}"
+        placeholder="Indonesia">
+      <div class="hint">Ini yang dipakai untuk mengelompokkan kopi di beranda.</div></div>
+    <div class="f"><label for="origin">Origin / daerah</label>
+      <input type="text" id="origin" list="dl-origin" value="${esc(d.origin || "")}"
+        placeholder="Gayo, Aceh"></div>
+    <div class="grid2">
+      <div class="f"><label for="farm">🏡 Farm</label>
+        <input type="text" id="farm" value="${esc(d.farm || "")}" placeholder="Kebun Suka Maju"></div>
+      <div class="f"><label for="altitude">⛰️ Altitude</label>
+        <input type="text" id="altitude" value="${esc(d.altitude || "")}" placeholder="1.400–1.600 mdpl"></div>
+    </div>
+    <div class="f"><label for="producer">👨‍🌾 Producer</label>
+      <input type="text" id="producer" value="${esc(d.producer || "")}"
+        placeholder="Ahmad / Kelompok Tani Suka Maju"></div>
+
+    <div class="sec-head" style="margin-top:18px"><h2 class="sec-title">🌿 Varietas &amp; proses</h2></div>
+    <div class="f"><label>Variety</label>
+      <div style="display:flex;gap:6px">
+        <input type="text" id="varInput" list="dl-varietas" placeholder="Gayo 1" style="flex:1">
+        <button class="btn ghost" id="varAdd" type="button">Tambah</button>
+      </div>
+      <div class="chipset" id="varChips" style="margin-top:8px"></div></div>
+    <div class="f"><label for="process">⚙️ Process</label>
+      <input type="text" id="process" list="dl-proses" value="${esc(d.process || "")}" placeholder="Washed"></div>
+
+    <div class="sec-head" style="margin-top:18px"><h2 class="sec-title">🔥 Sangrai</h2></div>
+    <div class="grid2">
+      <div class="f"><label for="roaster">Roaster</label>
+        <input type="text" id="roaster" list="dl-roaster" value="${esc(d.roaster || "")}"
+          placeholder="Kopi Rumah Roastery"></div>
+      <div class="f"><label for="roastDate">📅 Roast date</label>
+        <input type="date" id="roastDate" value="${esc(d.roastDate || "")}"></div>
+    </div>
+
+    <div class="sec-head" style="margin-top:18px"><h2 class="sec-title">Tasting notes</h2></div>
+    <div class="f">
+      <div style="display:flex;gap:6px">
+        <input type="text" id="noteInput" placeholder="tulis catatan rasa sendiri" style="flex:1">
+        <button class="btn ghost" id="noteAdd" type="button">Tambah</button>
+      </div>
+      <div class="chipset" id="noteChips" style="margin-top:9px"></div>
+      <details id="pilihWrap" style="margin-top:10px">
+        <summary>Pilih dari daftar rasa umum</summary>
+        <div class="chipset" id="notePilih" style="margin-top:9px"></div>
+      </details>
+    </div>
+
+    <div class="f" style="margin-top:14px"><label for="catatan">Catatan bebas</label>
+      <textarea id="catatan" placeholder="kesan umum, harga, di mana beli…">${esc(d.catatan || "")}</textarea></div>
+
+    <div class="btn-row">
+      <button class="btn wide" id="simpan" type="button">${k ? "Simpan perubahan" : "Simpan kopi"}</button>
+    </div>
+    ${k ? `<div class="btn-row"><button class="btn danger wide" id="hapus" type="button">Hapus catatan ini</button></div>` : ""}
+    <div style="height:16px"></div>`;
+
+  // datalist dari arsip + daftar umum
+  const arsip = Store.kopi();
+  datalist("dl-negara", Array.from(new Set(NEGARA_UMUM.concat(arsip.map(x => x.negara).filter(Boolean)))));
+  datalist("dl-origin", Array.from(new Set(arsip.map(x => x.origin).filter(Boolean))));
+  datalist("dl-varietas", Array.from(new Set(VARIETAS_UMUM.concat(
+    [].concat.apply([], arsip.map(x => x.variety || []))))));
+  datalist("dl-proses", Array.from(new Set(PROSES_UMUM.concat(arsip.map(x => x.process).filter(Boolean)))));
+  datalist("dl-roaster", Array.from(new Set(arsip.map(x => x.roaster).filter(Boolean))));
+
+  gambarVar(); gambarNotes(); gambarPilihan();
+
+  $("#varAdd").addEventListener("click", tambahVar);
+  $("#varInput").addEventListener("keydown", e => {
+    if(e.key === "Enter"){ e.preventDefault(); tambahVar(); } });
+  $("#noteAdd").addEventListener("click", tambahNote);
+  $("#noteInput").addEventListener("keydown", e => {
+    if(e.key === "Enter"){ e.preventDefault(); tambahNote(); } });
+  $("#simpan").addEventListener("click", simpan);
+  const h = $("#hapus");
+  if(h) h.addEventListener("click", async () => {
+    if(!confirm("Hapus catatan kopi ini?")) return;
+    await Store.hapus(ID); location.href = "index.html";
+  });
+}
+
+function gambarVar(){
+  $("#varChips").innerHTML = draftVar.length
+    ? draftVar.map(v => `<button type="button" aria-pressed="true" data-v="${esc(v)}">${esc(v)} ✕</button>`).join("")
+    : `<span class="muted" style="font-size:12.5px;color:var(--ink-faint)">belum ada</span>`;
+  $$("#varChips [data-v]").forEach(b => b.addEventListener("click", () => {
+    draftVar = draftVar.filter(x => x !== b.dataset.v); gambarVar(); }));
+}
+function tambahVar(){
+  const el = $("#varInput"); const v = el.value.trim();
+  if(v && !draftVar.includes(v)) draftVar.push(v);
+  el.value = ""; gambarVar(); el.focus();
+}
+function gambarNotes(){
+  $("#noteChips").innerHTML = draftNotes.length
+    ? draftNotes.map(v => `<button type="button" aria-pressed="true" data-n="${esc(v)}">${rasaEmoji(v)} ${esc(v)} ✕</button>`).join("")
+    : `<span class="muted" style="font-size:12.5px;color:var(--ink-faint)">belum ada</span>`;
+  $$("#noteChips [data-n]").forEach(b => b.addEventListener("click", () => {
+    draftNotes = draftNotes.filter(x => x !== b.dataset.n); gambarNotes(); gambarPilihan(); }));
+}
+function tambahNote(){
+  const el = $("#noteInput"); const v = el.value.trim();
+  if(v && !draftNotes.includes(v)) draftNotes.push(v);
+  el.value = ""; gambarNotes(); gambarPilihan(); el.focus();
+}
+function gambarPilihan(){
+  $("#notePilih").innerHTML = RASA_UMUM.map(r =>
+    `<button type="button" data-pick="${esc(r)}" aria-pressed="${draftNotes.includes(r)}">${rasaEmoji(r)} ${esc(r)}</button>`).join("");
+  $$("#notePilih [data-pick]").forEach(b => b.addEventListener("click", () => {
+    const v = b.dataset.pick;
+    if(draftNotes.includes(v)) draftNotes = draftNotes.filter(x => x !== v);
+    else draftNotes.push(v);
+    gambarNotes(); gambarPilihan();
+  }));
+}
+
+async function simpan(){
+  const g = i => { const e = document.getElementById(i); return e ? e.value.trim() : ""; };
+  const nama = g("nama");
+  if(!nama){ toast("Nama kopi belum diisi."); $("#nama").focus(); return; }
+  const lama = ID ? Store.cari(ID) : null;
+  const rec = Object.assign({}, lama || {}, {
+    id: ID || uid(),
+    nama,
+    negara: g("negara") || "Tanpa negara",
+    origin: g("origin"),
+    farm: g("farm"),
+    producer: g("producer"),
+    variety: draftVar.slice(),
+    process: g("process"),
+    altitude: g("altitude"),
+    roaster: g("roaster"),
+    roastDate: g("roastDate"),
+    notes: draftNotes.slice(),
+    catatan: g("catatan"),
+    seduhan: (lama && lama.seduhan) || [],
+    createdAt: (lama && lama.createdAt) || Date.now()
+  });
+  const btn = $("#simpan"); btn.disabled = true; btn.textContent = "Menyimpan…";
+  await Store.simpan(rec);
+  location.href = "kopi.html?id=" + encodeURIComponent(rec.id);
+}
+
+document.addEventListener("data-siap", render);
+Store.init();
+</script>
+</body>
+</html>
