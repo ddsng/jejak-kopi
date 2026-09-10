@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-10T22:26:50.648Z",
+  "diperbarui": "2026-09-10T22:27:11.869Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -113,21 +113,8 @@
     },
     {
       "id": "mtvmhp88y1flp",
-      "nama": "prau",
-      "negara": "Tanpa negara",
-      "origin": "temanggung",
-      "farm": "",
-      "producer": "",
-      "variety": [],
-      "process": "",
-      "altitude": "",
-      "roaster": "",
-      "roastDate": "",
-      "notes": [],
-      "catatan": "",
-      "seduhan": [],
-      "createdAt": 1789050526712,
-      "updatedAt": 1789050526713
+      "dihapus": true,
+      "updatedAt": 1789079231025
     },
     {
       "id": "mtvmleq4fa6d5",
