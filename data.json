@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-10T00:00:00.000Z",
+  "diperbarui": "2026-09-10T14:29:20.397Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -9,12 +9,18 @@
       "origin": "Gayo, Aceh",
       "farm": "Kebun Suka Maju",
       "producer": "Ahmad / Kelompok Tani Suka Maju",
-      "variety": ["Gayo 1"],
+      "variety": [
+        "Gayo 1"
+      ],
       "process": "Washed",
       "altitude": "1.400–1.600 mdpl",
       "roaster": "Kopi Rumah Roastery",
       "roastDate": "2026-09-05",
-      "notes": ["Chocolate", "Citrus", "Floral"],
+      "notes": [
+        "Chocolate",
+        "Citrus",
+        "Floral"
+      ],
       "catatan": "",
       "seduhan": [],
       "createdAt": 1757462400000,
@@ -27,12 +33,18 @@
       "origin": "Kerinci, Jambi",
       "farm": "Kebun Lempur",
       "producer": "Koperasi Alam Kerinci",
-      "variety": ["Sigararutang"],
+      "variety": [
+        "Sigararutang"
+      ],
       "process": "Red honey",
       "altitude": "1.400–1.500 mdpl",
       "roaster": "Kopi Rumah Roastery",
       "roastDate": "2026-08-18",
-      "notes": ["Peach", "Honey", "Black tea"],
+      "notes": [
+        "Peach",
+        "Honey",
+        "Black tea"
+      ],
       "catatan": "Entri contoh — hapus lewat halaman kopi ini kalau tidak dipakai.",
       "seduhan": [
         {
@@ -56,12 +68,20 @@
       "origin": "Uraga, Guji",
       "farm": "Stasiun cuci Uraga",
       "producer": "Petani sekitar stasiun cuci",
-      "variety": ["Heirloom", "74110"],
+      "variety": [
+        "Heirloom",
+        "74110"
+      ],
       "process": "Washed",
       "altitude": "1.950–2.100 mdpl",
       "roaster": "Kopi Rumah Roastery",
       "roastDate": "2026-07-30",
-      "notes": ["Jasmine", "Lemon", "Black tea", "Peach"],
+      "notes": [
+        "Jasmine",
+        "Lemon",
+        "Black tea",
+        "Peach"
+      ],
       "catatan": "Entri contoh — hapus kalau tidak dipakai.",
       "seduhan": [],
       "createdAt": 1753833600000,
@@ -74,16 +94,40 @@
       "origin": "Huila, Pitalito",
       "farm": "Finca El Mirador",
       "producer": "Familia Ramírez",
-      "variety": ["Pink Bourbon"],
+      "variety": [
+        "Pink Bourbon"
+      ],
       "process": "Anaerobic natural",
       "altitude": "1.750–1.850 mdpl",
       "roaster": "Kopi Rumah Roastery",
       "roastDate": "2026-08-02",
-      "notes": ["Strawberry", "Winey", "Caramel"],
+      "notes": [
+        "Strawberry",
+        "Winey",
+        "Caramel"
+      ],
       "catatan": "Entri contoh — hapus kalau tidak dipakai.",
       "seduhan": [],
       "createdAt": 1754006400000,
       "updatedAt": 1754006400000
+    },
+    {
+      "id": "mtvmhp88y1flp",
+      "nama": "prau",
+      "negara": "Tanpa negara",
+      "origin": "temanggung",
+      "farm": "",
+      "producer": "",
+      "variety": [],
+      "process": "",
+      "altitude": "",
+      "roaster": "",
+      "roastDate": "",
+      "notes": [],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789050526712,
+      "updatedAt": 1789050526713
     }
   ]
 }
