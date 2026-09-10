@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-10T14:29:20.397Z",
+  "diperbarui": "2026-09-10T14:31:40.150Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -128,6 +128,30 @@
       "seduhan": [],
       "createdAt": 1789050526712,
       "updatedAt": 1789050526713
+    },
+    {
+      "id": "mtvmleq4fa6d5",
+      "nama": "prau nad",
+      "negara": "indonesia",
+      "origin": "temanggung/ jawa tengah",
+      "farm": "jb coffee",
+      "producer": "reza",
+      "variety": [],
+      "process": "triple yeast",
+      "altitude": "",
+      "roaster": "tadasih",
+      "roastDate": "2026-07-16",
+      "notes": [
+        "Jasmine",
+        "Juicy",
+        "Blueberry",
+        "Yoghurt",
+        "Lychee"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789050699725,
+      "updatedAt": 1789050699725
     }
   ]
 }
