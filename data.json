@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-10T22:27:18.245Z",
+  "diperbarui": "2026-09-11T00:09:18.716Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -144,6 +144,33 @@
       "seduhan": [],
       "createdAt": 1789077842478,
       "updatedAt": 1789077842478
+    },
+    {
+      "id": "mtw789di5wphr",
+      "nama": "Ombligon Sergio Aranda",
+      "negara": "Colombia",
+      "origin": "",
+      "farm": "Anaya Farm",
+      "producer": "Sergio Aranda",
+      "variety": [
+        "Ombligon"
+      ],
+      "process": "Fruit Mosto Washed",
+      "altitude": "-",
+      "roaster": "Tadasih",
+      "roastDate": "2026-07-30",
+      "notes": [
+        "Blackcurrant",
+        "Peach",
+        "Passion fruit",
+        "Guava",
+        "🍬bubble gum",
+        "Complex"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789085358198,
+      "updatedAt": 1789085358199
     }
   ]
 }
