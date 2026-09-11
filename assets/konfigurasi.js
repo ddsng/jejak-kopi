@@ -20,8 +20,8 @@
    ===================================================================== */
 
 window.JEJAK_REPO = {
-  owner:  "",            // username GitHub, mis. "dedi"
-  repo:   "",            // nama repo, mis. "jejak-kopi"
+  owner:  "ddsng",            // username GitHub, mis. "ddsng"
+  repo:   "jejak-kopi",            // nama repo, mis. "jejak-kopi"
   branch: "main",
   path:   "data.json"
 };
