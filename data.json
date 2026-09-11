@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T08:06:15.616Z",
+  "diperbarui": "2026-09-11T08:07:01.902Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -96,7 +96,7 @@
       "negara": "Panama",
       "origin": "Boquete",
       "farm": "Hacienda Barbara",
-      "producer": "-",
+      "producer": "Hacienda Barbara",
       "variety": [
         "Catuai"
       ],
@@ -112,7 +112,7 @@
       "catatan": "",
       "seduhan": [],
       "createdAt": 1789113975049,
-      "updatedAt": 1789113975050
+      "updatedAt": 1789114021399
     }
   ]
 }
