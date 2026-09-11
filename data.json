@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T07:55:37.888Z",
+  "diperbarui": "2026-09-11T07:55:49.815Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -14,29 +14,8 @@
     },
     {
       "id": "contoh-guji-01",
-      "nama": "Guji Uraga",
-      "negara": "Ethiopia",
-      "origin": "Uraga, Guji",
-      "farm": "Stasiun cuci Uraga",
-      "producer": "Petani sekitar stasiun cuci",
-      "variety": [
-        "Heirloom",
-        "74110"
-      ],
-      "process": "Washed",
-      "altitude": "1.950–2.100 mdpl",
-      "roaster": "Kopi Rumah Roastery",
-      "roastDate": "2026-07-30",
-      "notes": [
-        "Jasmine",
-        "Lemon",
-        "Black tea",
-        "Peach"
-      ],
-      "catatan": "Entri contoh — hapus kalau tidak dipakai.",
-      "seduhan": [],
-      "createdAt": 1753833600000,
-      "updatedAt": 1753833600000
+      "dihapus": true,
+      "updatedAt": 1789113349435
     },
     {
       "id": "contoh-huila-01",
