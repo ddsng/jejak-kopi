@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T00:09:18.716Z",
+  "diperbarui": "2026-09-11T07:54:52.880Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -171,6 +171,32 @@
       "seduhan": [],
       "createdAt": 1789085358198,
       "updatedAt": 1789085358199
+    },
+    {
+      "id": "mtwnuzh4i9s7m",
+      "nama": "Finca Don Obar Niskala #73",
+      "negara": "Indonesia",
+      "origin": "Mt. Papandayan, West Java",
+      "farm": "-",
+      "producer": "Eka Teguh, Dodi Ganjar",
+      "variety": [
+        "Typica",
+        "Ateng"
+      ],
+      "process": "Yeast Anaerobic Natural",
+      "altitude": "-",
+      "roaster": "Onward Coffee Company",
+      "roastDate": "2026-01-01",
+      "notes": [
+        "Floral",
+        "Blackcurrant",
+        "Tropical",
+        "Bright"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789113292313,
+      "updatedAt": 1789113292313
     }
   ]
 }
