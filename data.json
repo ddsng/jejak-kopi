@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T07:55:49.815Z",
+  "diperbarui": "2026-09-11T08:06:15.616Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -89,6 +89,30 @@
       "seduhan": [],
       "createdAt": 1789113292313,
       "updatedAt": 1789113292313
+    },
+    {
+      "id": "mtwo9ma1bk9vu",
+      "nama": "Panama Hacienda Barbara",
+      "negara": "Panama",
+      "origin": "Boquete",
+      "farm": "Hacienda Barbara",
+      "producer": "-",
+      "variety": [
+        "Catuai"
+      ],
+      "process": "Natural",
+      "altitude": "1400-1700",
+      "roaster": "Good Things Coffee Roastery",
+      "roastDate": "2026-02-10",
+      "notes": [
+        "Floral",
+        "Almond",
+        "Berry"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789113975049,
+      "updatedAt": 1789113975050
     }
   ]
 }
