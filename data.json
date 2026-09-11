@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T07:55:26.364Z",
+  "diperbarui": "2026-09-11T07:55:37.888Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -40,27 +40,8 @@
     },
     {
       "id": "contoh-huila-01",
-      "nama": "Huila Pink Bourbon",
-      "negara": "Colombia",
-      "origin": "Huila, Pitalito",
-      "farm": "Finca El Mirador",
-      "producer": "Familia Ramírez",
-      "variety": [
-        "Pink Bourbon"
-      ],
-      "process": "Anaerobic natural",
-      "altitude": "1.750–1.850 mdpl",
-      "roaster": "Kopi Rumah Roastery",
-      "roastDate": "2026-08-02",
-      "notes": [
-        "Strawberry",
-        "Winey",
-        "Caramel"
-      ],
-      "catatan": "Entri contoh — hapus kalau tidak dipakai.",
-      "seduhan": [],
-      "createdAt": 1754006400000,
-      "updatedAt": 1754006400000
+      "dihapus": true,
+      "updatedAt": 1789113337584
     },
     {
       "id": "mtvmhp88y1flp",
