@@ -163,8 +163,14 @@ const Store = {
   },
 
   muatCfg(){
+    // Urutan: yang kamu simpan di halaman Atur → assets/konfigurasi.js →
+    // tebakan dari alamat *.github.io → kosong.
     const simpan = ls.get(K_CFG, null);
-    this.cfg = simpan || this.tebakRepo() || { owner:"", repo:"", branch:"main", path:"data.json" };
+    const berkas = window.JEJAK_REPO;
+    const punyaIsi = c => c && c.owner && c.repo;
+    this.cfg = punyaIsi(simpan) ? simpan
+      : punyaIsi(berkas) ? Object.assign({ branch:"main", path:"data.json" }, berkas)
+      : this.tebakRepo() || { owner:"", repo:"", branch:"main", path:"data.json" };
     this.token = ls.get(K_TOKEN, "") || "";
     this.sha = ls.get(K_SHA, null);
   },

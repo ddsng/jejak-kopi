@@ -28,6 +28,8 @@ data.json             ARSIPMU — satu-satunya berkas yang berubah saat mencatat
 assets/app.css        Semua gaya — palet negara ada di blok :root paling atas
 assets/app.js         Data, sinkronisasi GitHub, kartu tiket, kerangka halaman
 assets/seed.js        Salinan data.json untuk pratinjau lokal (lihat catatan di bawah)
+assets/konfigurasi.js Owner/repo kalau situsnya BUKAN di GitHub Pages
+_headers              Aturan singgahan untuk Cloudflare Pages / Netlify
 assets/icon-*.png     Ikon aplikasi
 manifest.webmanifest  Supaya bisa dipasang di layar depan HP
 sw.js                 Service worker — mode luring
@@ -175,15 +177,99 @@ selalu terbaru.
 **Batas ukuran.** GitHub API membaca berkas sampai 1 MB dengan mulus — kira-kira
 beberapa ribu catatan kopi. Jauh di atas itu, arsip sebaiknya dipecah per tahun.
 
-### Kalau mau data privat
+---
 
-GitHub Pages tidak melayani repo private di paket gratis. Dua jalan keluar:
+## Menaruhnya di Cloudflare Pages
 
-- **Cloudflare Pages** atau **Netlify** — keduanya gratis untuk repo private.
-  Hubungkan repo, tanpa perintah build, folder keluaran `/`. Aplikasinya jalan
-  apa adanya; di Pengaturan, isi Owner/Repo secara manual karena tidak bisa
-  ditebak dari alamat.
-- Repo tetap private dan situsnya kamu buka dari berkas lokal saja.
+Cloudflare Pages gratis, melayani **repo private**, dan menghormati berkas
+`_headers` — jadi masalah singgahan sepuluh menit di GitHub Pages hilang.
+Repo GitHub tetap dipakai: sebagai sumber berkas situs sekaligus tempat
+`data.json`. Cloudflare hanya menyajikan, tidak menyimpan datamu.
+
+### 1. Isi konfigurasi repo lebih dulu
+
+Ini langkah yang gampang terlewat. Di GitHub Pages, aplikasi menebak owner dan
+repo dari alamat `USERNAME.github.io/jejak-kopi`. Alamat Cloudflare
+(`jejak-kopi.pages.dev`) tidak menyebut repo apa pun, jadi tebakan itu gagal.
+
+Buka `assets/konfigurasi.js`, isi, lalu commit:
+
+```js
+window.JEJAK_REPO = {
+  owner:  "USERNAME",
+  repo:   "jejak-kopi",
+  branch: "main",
+  path:   "data.json"
+};
+```
+
+Berkas ini aman di-commit — tidak ada token di dalamnya. Kalau dilewat, situsnya
+tetap jalan, tapi kamu harus mengetik Owner dan Repo manual di halaman **Atur**
+pada setiap perangkat.
+
+### 2. Hubungkan repo
+
+1. Masuk ke <https://dash.cloudflare.com> → **Workers & Pages**.
+2. **Create application** → tab **Pages** → **Connect to Git**.
+3. Izinkan Cloudflare mengakses akun GitHub-mu, lalu pilih repo `jejak-kopi`.
+   Boleh private.
+4. Di **Set up builds and deployments**, isi seperti ini:
+
+   | Kolom | Isi |
+   |---|---|
+   | Project name | `jejak-kopi` (jadi alamat `jejak-kopi.pages.dev`) |
+   | Production branch | `main` |
+   | Framework preset | **None** |
+   | Build command | **kosongkan** |
+   | Build output directory | `/` |
+
+5. **Save and Deploy**. Sekitar satu menit, alamatnya hidup.
+
+Setiap commit ke `main` setelah itu otomatis ter-deploy — termasuk commit yang
+dibuat aplikasi sendiri waktu kamu mencatat kopi. Itu wajar; deploy-nya cepat
+dan tidak mengganggu.
+
+### 3. Domain sendiri (opsional)
+
+Di proyek Pages → **Custom domains** → **Set up a domain**. Kalau domainnya
+sudah di Cloudflare, DNS-nya diatur otomatis. Sertifikat HTTPS ikut terbit
+sendiri.
+
+### 4. Kalau mau arsipnya benar-benar tertutup
+
+**Repo private saja tidak cukup.** Cloudflare Pages menyajikan isi repo ke
+publik, jadi `data.json` tetap bisa dibuka siapa pun di
+`jejak-kopi.pages.dev/data.json`. Yang menutupnya adalah **Cloudflare Access**:
+
+1. Dashboard → **Zero Trust** → **Access** → **Applications** → **Add an
+   application** → **Self-hosted**.
+2. Application domain: isi alamat Pages atau domainmu.
+3. Buat satu policy: *Action* **Allow**, *Include* → **Emails** → alamat
+   emailmu (tambahkan email perangkat lain kalau perlu).
+4. Identity provider: **One-time PIN** sudah cukup — kamu masukkan email,
+   Cloudflare mengirim kode, selesai. Tidak perlu akun apa pun.
+
+Setelah aktif, membuka situs meminta kode sekali, lalu sesinya bertahan
+berhari-hari. Paket gratis Zero Trust memuat sampai 50 pengguna.
+
+Satu efeknya: aplikasi terpasang di layar depan HP tetap jalan, tapi sesekali
+akan minta login ulang saat sesinya habis.
+
+### Membandingkan dengan GitHub Pages
+
+| | GitHub Pages | Cloudflare Pages |
+|---|---|---|
+| Repo private | perlu akun berbayar | gratis |
+| Singgahan `data.json` | ±10 menit, tak bisa diatur | diatur `_headers`, selalu segar |
+| Bisa ditutup dengan login | tidak | ya, lewat Access |
+| Konfigurasi repo | ditebak otomatis | isi `assets/konfigurasi.js` |
+
+Keduanya boleh hidup bersamaan dari repo yang sama — tidak ada yang bentrok.
+
+### Kalau tetap mau di GitHub Pages saja
+
+Bisa. Repo harus **Public**, dan `assets/konfigurasi.js` boleh dibiarkan
+kosong.
 
 ---
 
@@ -248,6 +334,10 @@ atau token tidak mencakup repo ini.
 
 **Pil merah, "Repo atau berkas tidak ditemukan (404)".** Periksa Owner, Repo,
 dan Branch di Pengaturan. Branch default GitHub sekarang `main`, bukan `master`.
+
+**Di Cloudflare, kolom Owner dan Repo kosong.** `assets/konfigurasi.js` belum
+diisi, atau kamu pernah menyimpan pengaturan kosong lewat halaman Atur — yang
+tersimpan di browser selalu menang. Isi langsung di halaman Atur saja.
 
 **Sudah simpan tapi tidak muncul di perangkat lain.** Buka Pengaturan di
 perangkat itu lalu tekan **Tarik dari GitHub**. Kalau perangkat itu tanpa token,

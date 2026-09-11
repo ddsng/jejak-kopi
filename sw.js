@@ -2,7 +2,7 @@
    Halaman & aset: cache dulu, perbarui di belakang layar.
    data.json: SELALU dari jaringan (jangan pernah sajikan versi basi). */
 
-const VERSI = "jejak-kopi-v1";
+const VERSI = "jejak-kopi-v2";
 const SHELL = [
   "./",
   "./index.html",
@@ -13,6 +13,7 @@ const SHELL = [
   "./pengaturan.html",
   "./assets/app.css",
   "./assets/app.js",
+  "./assets/konfigurasi.js",
   "./assets/seed.js",
   "./assets/icon-192.png",
   "./assets/icon-512.png",

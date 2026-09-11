@@ -1,0 +1,21 @@
+# Aturan header untuk Cloudflare Pages (dan Netlify).
+# GitHub Pages mengabaikan berkas ini — tidak apa-apa, biarkan saja ada.
+
+# Arsip tidak boleh disinggahi. Tanpa ini, perangkat tanpa token bisa
+# melihat data lama sampai singgahan tepi kedaluwarsa.
+/data.json
+  Cache-Control: no-store, must-revalidate
+
+# Service worker juga harus selalu segar, supaya pembaruan situs terpasang.
+/sw.js
+  Cache-Control: no-cache
+  Service-Worker-Allowed: /
+
+# Berkas program: cukup divalidasi ulang tiap kali, ukurannya kecil.
+/assets/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
