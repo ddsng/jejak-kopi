@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T07:55:16.332Z",
+  "diperbarui": "2026-09-11T07:55:26.364Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -9,38 +9,8 @@
     },
     {
       "id": "contoh-kerinci-01",
-      "nama": "Kerinci Red Honey",
-      "negara": "Indonesia",
-      "origin": "Kerinci, Jambi",
-      "farm": "Kebun Lempur",
-      "producer": "Koperasi Alam Kerinci",
-      "variety": [
-        "Sigararutang"
-      ],
-      "process": "Red honey",
-      "altitude": "1.400–1.500 mdpl",
-      "roaster": "Kopi Rumah Roastery",
-      "roastDate": "2026-08-18",
-      "notes": [
-        "Peach",
-        "Honey",
-        "Black tea"
-      ],
-      "catatan": "Entri contoh — hapus lewat halaman kopi ini kalau tidak dipakai.",
-      "seduhan": [
-        {
-          "id": "s1",
-          "tanggal": "2026-08-24",
-          "metode": "V60",
-          "dosis": 15,
-          "air": 240,
-          "suhu": 93,
-          "waktu": "2:40",
-          "catatan": "Honey merah terasa lebih sirupy daripada yang natural."
-        }
-      ],
-      "createdAt": 1755561600000,
-      "updatedAt": 1755561600000
+      "dihapus": true,
+      "updatedAt": 1789113325954
     },
     {
       "id": "contoh-guji-01",
