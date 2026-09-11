@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T08:07:01.902Z",
+  "diperbarui": "2026-09-11T08:18:12.990Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -113,6 +113,35 @@
       "seduhan": [],
       "createdAt": 1789113975049,
       "updatedAt": 1789114021399
+    },
+    {
+      "id": "mtwooyyzd61v8",
+      "nama": "Ethiopia Sidama Agena",
+      "negara": "Ethiopia",
+      "origin": "Sidama",
+      "farm": "-",
+      "producer": "Niguse Gemeda Mude",
+      "variety": [
+        "74518"
+      ],
+      "process": "Washed",
+      "altitude": "2000 - 2200",
+      "roaster": "A Roastworks",
+      "roastDate": "2026-06-10",
+      "notes": [
+        "Floral",
+        "Peach",
+        "Orange",
+        "Bergamot",
+        "honey",
+        "nectarine",
+        "chamomile",
+        "magnolia"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789114691339,
+      "updatedAt": 1789114691340
     }
   ]
 }
