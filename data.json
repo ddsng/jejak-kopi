@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T07:54:52.880Z",
+  "diperbarui": "2026-09-11T07:55:09.364Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -123,27 +123,8 @@
     },
     {
       "id": "mtw2r67heuq55",
-      "nama": "Gayo Blueberry",
-      "negara": "Indonesia",
-      "origin": "temanggung/ jawa tengah",
-      "farm": "",
-      "producer": "",
-      "variety": [
-        "SL28"
-      ],
-      "process": "Full washed",
-      "altitude": "",
-      "roaster": "",
-      "roastDate": "",
-      "notes": [
-        "Blackcurrant",
-        "Strawberry",
-        "Peach"
-      ],
-      "catatan": "",
-      "seduhan": [],
-      "createdAt": 1789077842478,
-      "updatedAt": 1789077842478
+      "dihapus": true,
+      "updatedAt": 1789113309037
     },
     {
       "id": "mtw789di5wphr",
