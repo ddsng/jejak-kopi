@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-11T08:18:12.990Z",
+  "diperbarui": "2026-09-12T05:21:45.124Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -142,6 +142,30 @@
       "seduhan": [],
       "createdAt": 1789114691339,
       "updatedAt": 1789114691340
+    },
+    {
+      "id": "mtxxtwmdydun4",
+      "nama": "Ethiopia Buku Abel W",
+      "negara": "Ethiopia",
+      "origin": "Hambela",
+      "farm": "-",
+      "producer": "Buku Abel Farmers",
+      "variety": [
+        "Ethiopian"
+      ],
+      "process": "Washed",
+      "altitude": "-",
+      "roaster": "Onward Coffee Company",
+      "roastDate": "2026-07-21",
+      "notes": [
+        "Citrus",
+        "Jasmine",
+        "Apricot"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789190504294,
+      "updatedAt": 1789190504294
     }
   ]
 }
