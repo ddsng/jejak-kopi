@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-13T06:08:22.600Z",
+  "diperbarui": "2026-09-13T23:52:17.602Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -191,6 +191,31 @@
       "seduhan": [],
       "createdAt": 1789279701223,
       "updatedAt": 1789279701223
+    },
+    {
+      "id": "mu0gxx54wvrhl",
+      "nama": "Indonesia El Divisio",
+      "negara": "Indonesia",
+      "origin": "Mt Prau, Central Java",
+      "farm": "",
+      "producer": "JB Coffee",
+      "variety": [
+        "Mix"
+      ],
+      "process": "Experimental Natural",
+      "altitude": "1.600-1.700",
+      "roaster": "Arkana Roastery",
+      "roastDate": "2026-07-20",
+      "notes": [
+        "Floral",
+        "Strawberry",
+        "Cherry",
+        "mint"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789343536649,
+      "updatedAt": 1789343536649
     }
   ]
 }
