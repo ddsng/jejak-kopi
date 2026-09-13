@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-12T05:21:45.124Z",
+  "diperbarui": "2026-09-13T06:08:22.600Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -166,6 +166,31 @@
       "seduhan": [],
       "createdAt": 1789190504294,
       "updatedAt": 1789190504294
+    },
+    {
+      "id": "mtzexpev56akh",
+      "nama": "Leuweung Tiis",
+      "negara": "Indonesia",
+      "origin": "Mt Guntur, Garut, West Java",
+      "farm": "-",
+      "producer": "Mang Pait & Pak Hamzah",
+      "variety": [
+        "Sunda Typica"
+      ],
+      "process": "Honey",
+      "altitude": "1200",
+      "roaster": "Toko Kopi Lajeng",
+      "roastDate": "2026-07-27",
+      "notes": [
+        "Black tea",
+        "Floral",
+        "Chamomile",
+        "Roasted Almond"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789279701223,
+      "updatedAt": 1789279701223
     }
   ]
 }
