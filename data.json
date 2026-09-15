@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-14T01:17:05.322Z",
+  "diperbarui": "2026-09-15T04:52:43.733Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -241,6 +241,33 @@
       "seduhan": [],
       "createdAt": 1789348624666,
       "updatedAt": 1789348624667
+    },
+    {
+      "id": "mu27454uijvyu",
+      "nama": "Avatara Orange Shortcake",
+      "negara": "Indonesia",
+      "origin": "Pantan Musara, Gayo, Aceh",
+      "farm": "-",
+      "producer": "Hendra Maulizar",
+      "variety": [
+        "Caturra",
+        "P88",
+        "Abbysinia"
+      ],
+      "process": "Anaerobic natural",
+      "altitude": "1500-1700",
+      "roaster": "Hayati",
+      "roastDate": "",
+      "notes": [
+        "Cranberry",
+        "Mandarin Orange",
+        "Pineapple",
+        "Vanilla"
+      ],
+      "catatan": "Espresso",
+      "seduhan": [],
+      "createdAt": 1789447963135,
+      "updatedAt": 1789447963135
     }
   ]
 }
