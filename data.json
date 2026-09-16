@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-15T14:57:46.682Z",
+  "diperbarui": "2026-09-16T11:30:44.884Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -292,6 +292,30 @@
       "seduhan": [],
       "createdAt": 1789484190199,
       "updatedAt": 1789484190199
+    },
+    {
+      "id": "mu40ruix2lbus",
+      "nama": "Liberica Jogorogo",
+      "negara": "Indonesia",
+      "origin": "Mt Lawu, East Java",
+      "farm": "-",
+      "producer": "-",
+      "variety": [
+        "Liberica"
+      ],
+      "process": "Natural Anaerob 72H",
+      "altitude": "-",
+      "roaster": "Seia Sekata Roasting Company",
+      "roastDate": "",
+      "notes": [
+        "Jackfruit",
+        "Stevia",
+        "Snake Fruits"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1789558244169,
+      "updatedAt": 1789558244170
     }
   ]
 }
