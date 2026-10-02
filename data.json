@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-09-16T11:30:44.884Z",
+  "diperbarui": "2026-10-02T03:31:50.082Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -316,6 +316,30 @@
       "seduhan": [],
       "createdAt": 1789558244169,
       "updatedAt": 1789558244170
+    },
+    {
+      "id": "muqeplfttom3e",
+      "nama": "Finca Anaya Mt. Fragola",
+      "negara": "Colombia",
+      "origin": "Acevedo, Hulla",
+      "farm": "Finca Anaya",
+      "producer": "",
+      "variety": [
+        "mixed"
+      ],
+      "process": "Fruit Mosto Washed",
+      "altitude": "1600",
+      "roaster": "Djaya Roasters",
+      "roastDate": "2026-09-07",
+      "notes": [
+        "Lemon",
+        "watermelon",
+        "guava"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1790911909577,
+      "updatedAt": 1790911909577
     }
   ]
 }
