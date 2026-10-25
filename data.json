@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-10-02T03:31:50.082Z",
+  "diperbarui": "2026-10-25T08:47:46.129Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -340,6 +340,30 @@
       "seduhan": [],
       "createdAt": 1790911909577,
       "updatedAt": 1790911909577
+    },
+    {
+      "id": "mvnimrmwae9ff",
+      "nama": "Malino",
+      "negara": "Indonesia",
+      "origin": "Malino, South Sulawesi",
+      "farm": "",
+      "producer": "Yolan Tirta",
+      "variety": [
+        "Typica"
+      ],
+      "process": "Hybrid Washed",
+      "altitude": "1400-1500",
+      "roaster": "Cloudline Coffee Roaster",
+      "roastDate": "",
+      "notes": [
+        "Stone fruit",
+        "Orange",
+        "brownsugar"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1792913879913,
+      "updatedAt": 1792913879913
     }
   ]
 }
