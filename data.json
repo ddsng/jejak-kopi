@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-10-25T08:47:46.129Z",
+  "diperbarui": "2026-10-26T00:12:24.774Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -364,6 +364,30 @@
       "seduhan": [],
       "createdAt": 1792913879913,
       "updatedAt": 1792913879913
+    },
+    {
+      "id": "mvoi5kwfj2ku1",
+      "nama": "Gayo AB3 Lisa & Leo",
+      "negara": "Indonesia",
+      "origin": "Simalungun, North Sumatera",
+      "farm": "Lisa & Leo",
+      "producer": "",
+      "variety": [
+        "Abbysinia"
+      ],
+      "process": "Natural",
+      "altitude": "1400",
+      "roaster": "Outcome Coffee Company",
+      "roastDate": "",
+      "notes": [
+        "Floral",
+        "Blackberry",
+        "Honey"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1792973544207,
+      "updatedAt": 1792973544207
     }
   ]
 }
