@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-11-02T01:00:16.499Z",
+  "diperbarui": "2026-11-02T01:03:13.056Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -414,6 +414,31 @@
       "seduhan": [],
       "createdAt": 1793581215970,
       "updatedAt": 1793581215970
+    },
+    {
+      "id": "mvyk1vmfig5vh",
+      "nama": "Liberica Temanggung",
+      "negara": "Indonesia",
+      "origin": "Central Java",
+      "farm": "Jlegong Bejen Village",
+      "producer": "Reza Nurullah",
+      "variety": [
+        "Liberica"
+      ],
+      "process": "Yeast Natural With Oxygenium",
+      "altitude": "700-800",
+      "roaster": "Tadasih",
+      "roastDate": "",
+      "notes": [
+        "Floral",
+        "Blackcurrant",
+        "soursoup",
+        "marmalade"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1793581392471,
+      "updatedAt": 1793581392471
     }
   ]
 }
