@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-10-26T00:12:24.774Z",
+  "diperbarui": "2026-11-02T01:00:16.499Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -388,6 +388,32 @@
       "seduhan": [],
       "createdAt": 1792973544207,
       "updatedAt": 1792973544207
+    },
+    {
+      "id": "mvyjy3fly19vb",
+      "nama": "Prau",
+      "negara": "Indonesia",
+      "origin": "Mt Prau, Central Java",
+      "farm": "",
+      "producer": "Reza Nurullah",
+      "variety": [
+        "Kartika",
+        "Lini-S",
+        "Typica"
+      ],
+      "process": "Triple Yeast Washed",
+      "altitude": "1200-1300",
+      "roaster": "Tadasih",
+      "roastDate": "",
+      "notes": [
+        "white tea",
+        "Grape",
+        "Jasmine"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1793581215970,
+      "updatedAt": 1793581215970
     }
   ]
 }
