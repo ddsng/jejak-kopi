@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-11-02T01:03:57.983Z",
+  "diperbarui": "2026-11-04T05:15:19.274Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -439,6 +439,32 @@
       "seduhan": [],
       "createdAt": 1793581392471,
       "updatedAt": 1793581392471
+    },
+    {
+      "id": "mw1nxsa9ac6so",
+      "nama": "Inoi Kerugoya",
+      "negara": "Kenya",
+      "origin": "Kerugoya",
+      "farm": "",
+      "producer": "Inoi Farmers Cooperative",
+      "variety": [
+        "Batian",
+        "SL28",
+        "SL34"
+      ],
+      "process": "Washed",
+      "altitude": "",
+      "roaster": "Series Coffee Roasters",
+      "roastDate": "",
+      "notes": [
+        "Red Currants",
+        "Orange",
+        "Sugarcane"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1793769318515,
+      "updatedAt": 1793769318516
     }
   ]
 }
