@@ -1,6 +1,6 @@
 {
   "versi": 1,
-  "diperbarui": "2026-11-04T05:15:19.274Z",
+  "diperbarui": "2026-11-15T08:00:46.824Z",
   "kopi": [
     {
       "id": "gayo-aceh-01",
@@ -465,6 +465,31 @@
       "seduhan": [],
       "createdAt": 1793769318515,
       "updatedAt": 1793769318516
+    },
+    {
+      "id": "mwhjoxzg5jgnr",
+      "nama": "Java Los Rodrigues",
+      "negara": "Bolivia",
+      "origin": "",
+      "farm": "Finca Los Rodrigues",
+      "producer": "Finca Los Rodrigues",
+      "variety": [
+        "Java",
+        "apple"
+      ],
+      "process": "Washed",
+      "altitude": "1550-1650",
+      "roaster": "Ber.Interaksi",
+      "roastDate": "",
+      "notes": [
+        "Orange",
+        "Hazelnut",
+        "Chocolate"
+      ],
+      "catatan": "",
+      "seduhan": [],
+      "createdAt": 1794729646349,
+      "updatedAt": 1794729646349
     }
   ]
 }
